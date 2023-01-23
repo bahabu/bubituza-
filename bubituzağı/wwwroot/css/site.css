@@ -1,0 +1,73 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.baslik {
+    background-color: #c9a442 !important;
+    height:80px;
+    border-color:transparent;
+    text-align:center !important;
+}
+.arama{
+    justify-content:center;
+    align-items:center;
+    display:flex;
+    height:95px;
+}
+.kay{
+    margin-right:15px;
+}
+.dropdown-menu {
+    display: none;
+    padding: 0.3125rem 0;
+    border: 0;
+    transform-origin: 0 0;
+    will-change: transform, opacity;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 26%);
+    background: white !important;
+    width: 200px !important;
+}
+
+.at {
+    display: block;
+    width: 100%;
+    padding: 0.625rem 1.25rem;
+    clear: both;
+    font-weight: 400;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+
+    .at:hover {
+        box-shadow: 0 4px 20px 0px rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(201 164 66 / 40%);
+        background-color: #c9a442;
+        color: white;
+    }
+    .ana{
+
+    }
+a {
+    color: black;
+    text-decoration: none;
+}
+.deneme {
+    background-color: #c9a442 !important;
+}

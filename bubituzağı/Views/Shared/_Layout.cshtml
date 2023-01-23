@@ -1,0 +1,132 @@
+﻿@using bubituzagi.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext context
+@{
+
+    List<Category> categories = context.Categories.Where(c => c.TopCategoryId == null).ToList();
+    List<TopCategory> topCategories = context.TopCategories.Include(a => a.Categories).ToList();
+
+
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - bubituzağı</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/bubituzağı.styles.css" asp-append-version="true" />
+</head>
+<body >
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  border-bottom box-shadow mb-3 baslik">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/"><img src="~/Adsız-removebg-preview.png" height="55px" width="145px" /></a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between padding-top: 25px">
+                    <ul class="navbar-nav flex-grow-1" style="justify-content: center !important">
+                        @foreach (TopCategory topCategory in topCategories)
+                        {
+
+                            <li class="nav-item">
+                                <a id="@topCategory.Id.ToString()" onclick="dussun(this.id)" class="nav-link text-dark ana">@topCategory.Name.ToString().Trim().ToUpper()</a>
+                                <ul class="dropdown-menu baba" id="cat-@topCategory.Id.ToString()">
+                                    @foreach (Category category in topCategory.Categories)
+                                    {
+                                        <li >
+                                            <a asp-route-id="@category.Id" asp-area="" asp-controller="Categories" asp-action="Details" class="at" > @category.Name.Trim()</a>
+                                        </li>
+
+                                    }
+
+                                </ul>
+
+                            </li>
+
+
+                        }
+                        @foreach (Category x in categories)
+                        {
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark">@x.Name.ToString().Trim().ToUpper()</a>
+                            </li>
+                        }
+
+                    </ul>
+                    <script>
+
+                        function dussun(id) {
+
+                            var menuUl = "cat-" + id;
+                            var display = document.getElementById(menuUl);
+                            if (display.style.display != "none") {
+                                display.style.display = "none";
+                            } else {
+                                $(".baba").css("display","none");
+                                display.style.display = "block";
+
+                            }
+
+
+                            $("*").click(function (e) {
+                                if (!$(e.target).is(".ana")) {
+                                    return display.style.display="none";
+
+                                }
+                            });
+                        
+                        }
+
+                    </script>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+
+            </div>
+            <div class="col-3">
+                <div class="card">
+
+                    <div class="arama">
+                        <img src="https://www.freeiconspng.com/thumbs/search-icon-png/search-icon-png-21.png" style="height:20px;" />
+                        <div><input style="height:37px;border-bottom:lightgrey solid 1px !important;border-color:transparent;" name="q" id="right-panel-search-q" placeholder="BubiSanat'ta ara" type="text"></div>
+                        <input type="submit" style="height:37px;background-color: #c9a442;border-color:transparent;border-top-left-radius:0px;border-bottom-left-radius:0px;" value="Ara" class="btn btn-primary" data-disable-with="Ara">
+                    </div>
+                    <div style="height:100px;">
+                        <a href="/Home/Hakkimizda" style="padding-left:25px;color: #c9a442">Hakkımızda</a><br />
+                        <a style="padding-left:25px;color: #c9a442">Yardım</a><br />
+                        <a style="padding-left:25px;color: #c9a442">Kullanıcı Sözleşmesi</a><br />
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

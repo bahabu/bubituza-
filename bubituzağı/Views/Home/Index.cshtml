@@ -1,0 +1,62 @@
+﻿@model IEnumerable<bubituzagi.Models.Post>
+
+@{
+    string timeSpan;
+    string content;
+    ViewData["Title"] = "Index";
+}
+<script>
+    function likeHele(id) {
+        var ds =document.getElementById("Likes-"+id);
+        $.get("@Url.Action("like1","Posts")/"+id,function(postId){
+            $(ds).html(postId);
+        });
+    }
+
+
+</script>
+
+
+
+@foreach (var item in Model)
+{
+    timeSpan = (DateTime.Now - item.CreatedAt).TotalHours.ToString("F0");
+
+    if (item.Content.Length < 150)
+    {
+        content = item.Content;
+    }
+    else
+    {
+        content = item.Content.Substring(0, 150) + "....";
+    }
+
+    <div class="card card-nav-tabs" onclick="">
+    
+         <a asp-route-id="@item.Id" asp-controller="Posts" asp-action="Details" asp-area="">  
+
+        <div class="card-header card-header-bubituzagi deneme a1">
+            <div class="postTitle ">
+                <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
+                <p>@timeSpan saat önce</p>
+                <p>Yazar:@item.Author.UserName Kategori: @item.Catogory.Name</p>
+            </div>
+        </div>
+        <div class="card-body a1">
+            <p>@content</p>
+        </div>
+         </a>
+        <div class="card-footer a1">
+
+            <div style="display: flex; align-items: center;flex-direction:row;" class="">
+                <img onclick="likeHele('@item.Id.ToString()')" style="width: 18px; display: flex; margin: 5px;" src="https://d87rq1riteunk.cloudfront.net/assets/like-419745805fb16c199f7083f5743d4df62f890f874a1cebc261791cf43997b476.svg"><span id="Likes-@item.Id.ToString()">@item.Likes</span>
+                @*<img style="width: 18px; display: flex; margin: 5px;" src="https://d87rq1riteunk.cloudfront.net/assets/comment-edaee9208a5ead9d2fde550d2e65116b208b941934e11becfa640ac4b8bb1d55.svg"><a>@item.</a>*@
+                <img style="width: 18px; display: flex; margin: 5px;" src="https://d87rq1riteunk.cloudfront.net/assets/visibility-7551a54d43087d0afeb8a028815cfd2ddeec7a30ec404b2ed93b462b035d75cc.svg"><a>@item.DisplayCount</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+}  
